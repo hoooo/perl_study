@@ -2,7 +2,8 @@
 use strict;
 use warnings;
 
-use Class::Accessor;
+use base qw/Class::Accessor::Fast/;
+__PACKAGE__->mk_accessors(qw/a b c/);
 
 
 package Main;
@@ -25,9 +26,6 @@ sub main {
 
 package A;
 
-__PACKAGE__->mk_accessors(qw/a b c/);
-
-
 sub new {
 	my($class) = @_;
 	bless +{}, $class;
@@ -37,7 +35,7 @@ sub add_data {
 	my($self, $args) = @_;
 
 	# オブジェクトにundefが入っていないかチェック
-	for my $key (keys%$self) {
+	for my $key (keys %$self) {
 		unless (exists $args->{$key}) {
 			print "undef\n" unless(defined $args->{c});
 			return 0;
